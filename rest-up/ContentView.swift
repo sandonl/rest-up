@@ -24,7 +24,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                
                 Color(red: 42/250, green: 157/255, blue: 143/255)
                 
                 Rectangle().foregroundColor(Color(red: 7/250, green: 59/250, blue: 76/250))
@@ -32,53 +31,57 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .offset(y: 420)
                     
-                
-                    VStack (spacing: 30){
-
-                            // Date Picker and time
-                            Text("When do you want to wake up?")
-                                .font(.headline)
-
+                VStack (spacing: 30){
+                    VStack {
+                        // Date Picker and time
+                        Text("When do you want to wake up?")
+                            .font(.headline)
+                        
+                        Group {
                             DatePicker("Please enter a time",
                                        selection: $wakeUp,
                                        displayedComponents:
                                         .hourAndMinute)
                                 .labelsHidden()
                                 .datePickerStyle(WheelDatePickerStyle())
-                
-                            
-                            Text("Desired amount of sleep")
-                                .font(.headline)
-                            
-                            Stepper(value: $sleepAmount, in: 4...12, step: 0.25) {
-                                Text("\(sleepAmount, specifier: "%g") hours")
-                            }.frame(width: 200, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        
-
-                            // Coffee Intake
-                            Group {
-                                Text("Daily coffee intake")
-                                    .font(.headline)
-                                
-                                Stepper(value: $coffeeAmount, in: 1...20) {
-                                    if coffeeAmount == 1 {
-                                        Text("1 Cup")
-                                    } else {
-                                        Text("\(coffeeAmount) Cups")
-                                    }
-                                }.frame(width: 180, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            }
-                        
-                        Button(action: calculateBedTime) {
-                            Text("Calculate")
-                        }.font(.title2)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.init(red: 233/255, green: 196/255, blue: 106/255))
-                        .cornerRadius(20)
-                        
+                        }
+                        .colorInvert()
                         
                     }
+                    
+                    VStack (spacing: 30){
+                        Text("Desired amount of sleep")
+                            .font(.headline)
+                        
+                        Stepper(value: $sleepAmount, in: 4...12, step: 0.25) {
+                                Text("\(sleepAmount, specifier: "%g") hours")
+                            }.frame(width: 200, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+
+                    }
+                    
+                    VStack (spacing: 30) {
+                        Text("Daily coffee intake")
+                            .font(.headline)
+                        
+                        Stepper(value: $coffeeAmount, in: 1...20) {
+                            if coffeeAmount == 1 {
+                                Text("1 Cup")
+                            } else {
+                                Text("\(coffeeAmount) Cups")
+                            }
+                        }.frame(width: 180, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        
+                    }
+                    
+                    Button(action: calculateBedTime) {
+                        Text("Calculate")
+                    }.font(.title2)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.init(red: 233/255, green: 196/255, blue: 106/255))
+                    .cornerRadius(20)
+                    .offset(y: 60)
+                }
                     // Colors for the design
                     .foregroundColor(Color.init(red: 241/255, green: 250/255, blue: 238/255))
                     .alert(isPresented: $showingAlert) {
